@@ -10,12 +10,17 @@
 
 <style>
     footer{
+        margin-top: 15px;
+        color: white;
         text-decoration: none !important;
     }
-
+    footer a{
+        color: #10cb8a;
+    }
     i img{
         width: 15px;
         height: 15px;
+        color: #10cb8a;
     }
 </style>
 
