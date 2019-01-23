@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<a class="navbar-brand" href="#">
 				<img src="./assets/logo_todo.jpg">
 			</a>
@@ -11,16 +11,17 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="#"><router-link to="/">Home</router-link></a>
+					<a class="nav-link" href="#"><router-link to="/">Notes</router-link></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#"><router-link to="/about">About</router-link></a>
+					<a class="nav-link" href="#"><router-link to="/weather">Weather</router-link></a>
 				</li>
 				</ul>
 			</div>
 		</nav>
     </div>    
     <router-view/>
+	<Footer></Footer>
   </div>
 </template>
 
@@ -38,3 +39,13 @@ nav img{
 	height: 60px;
 }
 </style>
+
+<script>
+import Footer from '@/components/Footer.vue'
+export default {
+	name: 'index',
+	components: {
+		Footer
+	}
+}
+</script>
