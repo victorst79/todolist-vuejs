@@ -5,15 +5,15 @@
 		v-model="newTask" 
 		v-on:keyup.enter="newNote">
 		<div class="dropdown-divider"></div>
-		<small> {{countNotes(notes)}} pending tasks of a total {{notes.length}} | <b>Delete completed tasks</b></small>
-		<div class="dropdown-divider"></div>
+		<small> {{countNotes(notes)}} pending tasks of a total {{notes.length}} | <b v-on:click="deleteCompleteNotes">Delete completed tasks</b></small>
+		<div class="dropdown-divider"></div>		
 		<ul class="list-group">
-			<li class="list-group-item" v-for="note in notes">
-				<div class="container">                  
+			<li class="list-group-item" v-for="note in orderNotes">
+				<div class="container">               
 					<div class="row">
-						<div class="col-1">
-							<img class="complete" v-if="note.state == 'complete'" src="../assets/check-solid.svg">
-							<img class="incomplete" v-else src="../assets/times-solid.svg">
+						<div class="col-1 icon-note">
+							<img class="complete" v-if="note.state == 'complete'" src="../assets/circle_tick.png">
+							<img class="incomplete" v-else src="../assets/circle.png">
 						</div>
 						<div class="col-10">
 							<div class="row">
@@ -22,26 +22,26 @@
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
-									<button v-if="note.priority == '1'" class="low">Low</button>
-									<button v-else class="disable">Low</button>
+									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
+									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
 									<!-- NORMAL -->
-									<button v-if="note.priority == '2'" class="normal">Normal</button>
-									<button v-else class="disable">Normal</button>
+									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
+									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
 									<!-- HIGH -->
-									<button v-if="note.priority == '3'" class="high">High</button>
-									<button v-else class="disable">High</button>
+									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
+									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
 								</small>
 								<small class="col-6">Date: {{ note.date_creation }}</small>
 								<!-- <p>Complete: {{ note.state }}</p> -->
 							</div>							
 						</div>
-						<div class="col-1">
-							<img class="delete" src="../assets/minus-square-solid.svg">
+						<div class="col-1 icon-note">
+							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(notes.index)">
 						</div>				
 					</div>
                 </div>
 			</li>
-		</ul>  
+		</ul>		
 	</div>		
 </template>
 
@@ -73,7 +73,8 @@
 						state: "incomplete"
 					},
 				],
-				newTask: ""
+				newTask: "",
+				notesOrder: []				
 			}
 		},
 		methods: {
@@ -93,11 +94,48 @@
 				var state = "incomplete";
 
 				this.notes.push({task,priority,date_creation,state});
+			},
+			deleteCompleteNotes: function(){
+				var notes = this.notes;
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].state == "complete"){
+						notes.splice(i,notes.length-1);
+					}
+				}
+			},
+			deleteNotes: function(i){
+				this.notes.splice(i, 1);
+			},
+			priorityLow: function(note){
+				note.priority = "1";
+			},
+			priorityNormal: function(note){
+				note.priority = "2";
+			},
+			priorityHigh: function(note){;
+				note.priority = "3"
 			}
 		},
 		computed: {
-			timeCalculated: function(notes){
-				return("Time calculated");
+			orderNotes: function(){
+				var notes = this.notes;
+				this.notesOrder = [];
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 3){
+						this.notesOrder.push(notes[i]);
+					}
+				}
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 2){
+						this.notesOrder.push(notes[i]);
+					}
+				}
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 1){
+						this.notesOrder.push(notes[i]);
+					}
+				}
+				return this.notesOrder;
 			}
 		}
 	}
@@ -157,7 +195,6 @@
 		display:inline-block;
 		cursor:pointer;
 		color:#ffffff;
-		font-family:Arial;
 		font-size:10px;
 		font-weight:bold;
 		padding:6px 15px;
@@ -193,5 +230,13 @@
 	.high{
 		background-color:#e74d3d;
 		border:1px solid #e74d3d;
+	}
+
+	.icon-note{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
 	}
 </style>
