@@ -30,16 +30,6 @@
 		color: white;
 		background: #222222 !important;
 	}
-
-	/* #app {
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-	margin-top: 60px;
-	} */
-
 	nav img{
 		width: 50px;
 		height: 60px;
