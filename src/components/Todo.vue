@@ -36,12 +36,51 @@
 							</div>							
 						</div>
 						<div class="col-1 icon-note">
-							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(notes.index)">
+							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(note)">
+						</div>				
+					</div>
+                </div>
+			</li>			
+		</ul>
+		<div class="dropdown-divider"></div>
+		<h2>Search Task</h2>
+		<input type="text" class="form-control" placeholder="Search"
+			v-model="searchTask">
+		<ul class="list-group">
+			<li class="list-group-item" v-for="note in filteredList">
+				<div class="container">               
+					<div class="row">
+						<div class="col-1 icon-note">
+							<img class="complete" v-if="note.state == 'complete'" src="../assets/circle_tick.png">
+							<img class="incomplete" v-else src="../assets/circle.png">
+						</div>
+						<div class="col-10">
+							<div class="row">
+								<h4 v-if="note.state == 'complete'" class="col-12 title-complete">{{ note.task }}</h4>
+								<h4 v-if="note.state == 'incomplete'" class="col-12 title-incomplete">{{ note.task }}</h4>
+								<small class="col-6 priority">
+									Priority:
+									<!-- LOW -->
+									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
+									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
+									<!-- NORMAL -->
+									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
+									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
+									<!-- HIGH -->
+									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
+									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
+								</small>
+								<small class="col-6">Date: {{ note.date_creation }}</small>
+								<!-- <p>Complete: {{ note.state }}</p> -->
+							</div>							
+						</div>
+						<div class="col-1 icon-note">
+							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(note)">
 						</div>				
 					</div>
                 </div>
 			</li>
-		</ul>		
+		</ul>
 	</div>		
 </template>
 
@@ -74,7 +113,9 @@
 					},
 				],
 				newTask: "",
-				notesOrder: []				
+				searchTask: "",
+				notesOrder: [],
+				seekerTask: []
 			}
 		},
 		methods: {
@@ -103,8 +144,13 @@
 					}
 				}
 			},
-			deleteNotes: function(i){
-				this.notes.splice(i, 1);
+			deleteNotes: function(note){
+				var notes = this.notes;
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i] == note){
+						notes.splice(i,1);
+					}
+				}
 			},
 			priorityLow: function(note){
 				note.priority = "1";
@@ -136,8 +182,17 @@
 					}
 				}
 				return this.notesOrder;
+			},
+			filteredList: function() {
+				if(this.searchTask == "" || this.searchTask == " "){
+					return null;
+				}else{
+					return this.notes.filter(note => {
+						return note.task.toLowerCase().includes(this.searchTask.toLowerCase());
+					})
+				}		
 			}
-		}
+		}		
 	}
 </script>
 
