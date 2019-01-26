@@ -1,63 +1,28 @@
 <template>
 	<div id="notes container">
 		<h2>{{ msg }}</h2>
-		<input type="text" class="form-control" placeholder="What do you want to remember?" 
+		<input id="newNote" type="text" class="form-control" placeholder="What do you want to remember?" 
 		v-model="newTask" 
 		v-on:keyup.enter="newNote">
 		<div class="dropdown-divider"></div>
 		<small> {{countNotes(notes)}} pending tasks of a total {{notes.length}} | <b v-on:click="deleteCompleteNotes">Delete completed tasks</b></small>
 		<div class="dropdown-divider"></div>		
 		<ul class="list-group">
-			<li class="list-group-item" v-for="note in orderNotes">
+			<transition-group
+				name="custom-classes-transition" 
+                enter-active-class="animated fadeInLeft"
+				leave-active-class="animated fadeOutRight">
+			<li class="list-group-item" v-for="note in orderNotes" v-bind:key="note">
 				<div class="container">               
 					<div class="row">
 						<div class="col-1 icon-note">
-							<img class="complete" v-if="note.state == 'complete'" src="../assets/circle_tick.png">
-							<img class="incomplete" v-else src="../assets/circle.png">
+							<img class="complete" v-if="note.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(note)">
+							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(note)">
 						</div>
 						<div class="col-10">
 							<div class="row">
-								<h4 v-if="note.state == 'complete'" class="col-12 title-complete">{{ note.task }}</h4>
-								<h4 v-if="note.state == 'incomplete'" class="col-12 title-incomplete">{{ note.task }}</h4>
-								<small class="col-6 priority">
-									Priority:
-									<!-- LOW -->
-									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
-									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
-									<!-- NORMAL -->
-									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
-									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
-									<!-- HIGH -->
-									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
-									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
-								</small>
-								<small class="col-6">Date: {{ note.date_creation }}</small>
-								<!-- <p>Complete: {{ note.state }}</p> -->
-							</div>							
-						</div>
-						<div class="col-1 icon-note">
-							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(note)">
-						</div>				
-					</div>
-                </div>
-			</li>			
-		</ul>
-		<div class="dropdown-divider"></div>
-		<h2>Search Task</h2>
-		<input type="text" class="form-control" placeholder="Search"
-			v-model="searchTask">
-		<ul class="list-group">
-			<li class="list-group-item" v-for="note in filteredList">
-				<div class="container">               
-					<div class="row">
-						<div class="col-1 icon-note">
-							<img class="complete" v-if="note.state == 'complete'" src="../assets/circle_tick.png">
-							<img class="incomplete" v-else src="../assets/circle.png">
-						</div>
-						<div class="col-10">
-							<div class="row">
-								<h4 v-if="note.state == 'complete'" class="col-12 title-complete">{{ note.task }}</h4>
-								<h4 v-if="note.state == 'incomplete'" class="col-12 title-incomplete">{{ note.task }}</h4>
+								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
+								<h4 v-if="note.state == false" class="col-12 title-incomplete">{{ note.task }}</h4>
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
@@ -80,6 +45,51 @@
 					</div>
                 </div>
 			</li>
+			</transition-group>			
+		</ul>
+		<h2 class="search">Search Task</h2>
+		<div class="dropdown-divider"></div>
+		<input type="text" class="form-control" placeholder="Search"
+			v-model="searchTask">
+		<ul class="list-group">
+			<transition-group
+				name="custom-classes-transition" 
+                enter-active-class="animated fadeInLeft"
+				leave-active-class="animated fadeOutRight">
+			<li class="list-group-item" v-for="note in filteredList" v-bind:key="note">
+				<div class="container">               
+					<div class="row">
+						<div class="col-1 icon-note">
+							<img class="complete" v-if="note.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(note)">
+							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(note)">
+						</div>
+						<div class="col-10">
+							<div class="row">
+								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
+								<h4 v-if="note.state == false" class="col-12 title-incomplete">{{ note.task }}</h4>
+								<small class="col-6 priority">
+									Priority:
+									<!-- LOW -->
+									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
+									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
+									<!-- NORMAL -->
+									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
+									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
+									<!-- HIGH -->
+									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
+									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
+								</small>
+								<small class="col-6">Date: {{ note.date_creation }}</small>
+								<!-- <p>Complete: {{ note.state }}</p> -->
+							</div>							
+						</div>
+						<div class="col-1 icon-note">
+							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(note)">
+						</div>				
+					</div>
+                </div>
+			</li>
+			</transition-group>
 		</ul>
 	</div>		
 </template>
@@ -92,26 +102,7 @@
 		},
 		data: function(){
 			return{
-				notes: [
-					{
-						task: "Sort desk",
-						priority: 3,
-						date_creation: new Date().toLocaleString(),
-						state: "complete"
-					},
-					{
-						task: "Update repositories",
-						priority: 1,
-						date_creation: new Date().toLocaleString(),
-						state: "complete"
-					},
-					{
-						task: "Modify keywords",
-						priority: 2,
-						date_creation: new Date().toLocaleString(),
-						state: "incomplete"
-					},
-				],
+				notes: [],
 				newTask: "",
 				searchTask: "",
 				notesOrder: [],
@@ -122,27 +113,35 @@
 			countNotes: function(notes){
 				var result = 0;
 				for(let i = 0; i < notes.length; i++){
-					if(notes[i].state == "incomplete"){
+					if(notes[i].state == false){
 						result++;
 					}
 				}
 				return result;
 			},
 			newNote: function(){
-				var task = this.newTask;
-				var priority = parseInt((Math.random() * 3 ) + 1);
-				var date_creation = new Date().toLocaleString();
-				var state = "incomplete";
+				if(this.newTask != ""){
+					var task = this.newTask;
+					var priority = parseInt((Math.random() * 3 ) + 1);
+					var date_creation = new Date().toLocaleString();
+					var state = false;
 
-				this.notes.push({task,priority,date_creation,state});
+					this.notes.push({task,priority,date_creation,state});
+				}
+				this.newTask = "";
+
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			deleteCompleteNotes: function(){
 				var notes = this.notes;
-				for(let i = 0; i < notes.length; i++){
-					if(notes[i].state == "complete"){
-						notes.splice(i,notes.length-1);
+				for(let i = notes.length-1; i >= 0; i--){
+					if(notes[i].state == true){
+						notes.splice(i,1);
 					}
 				}
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			deleteNotes: function(note){
 				var notes = this.notes;
@@ -151,15 +150,28 @@
 						notes.splice(i,1);
 					}
 				}
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
+			},
+			changeStatus: function(note){
+				note.state = !note.state;
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityLow: function(note){
 				note.priority = "1";
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityNormal: function(note){
 				note.priority = "2";
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityHigh: function(note){;
-				note.priority = "3"
+				note.priority = "3";
+				localStorage.removeItem("notes");
+                localStorage.setItem("notes", JSON.stringify(this.notes));
 			}
 		},
 		computed: {
@@ -192,15 +204,30 @@
 					})
 				}		
 			}
-		}		
+		},
+		mounted: function(){
+			if(typeof this.notes != null){
+				this.notes = JSON.parse(localStorage.getItem("notes"));
+			}else{				
+				localStorage.setItem("notes", JSON.stringify(this.notes));
+			}
+            
+        }   
 	}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 	h2{
 		color: white;
 		margin-top: 15px;
+	}
+
+	h2.search{
+		margin-top: 25px;
+	}
+
+	h4::first-letter{
+		text-transform: uppercase;
 	}
 
 	ul{
@@ -294,4 +321,5 @@
 		justify-content: center;
 		text-align: center;
 	}
+
 </style>
