@@ -1,5 +1,16 @@
 <template>
-  <div class="about">
-    <h1>This is a Weather Page</h1>
-  </div>
+    <section class="container">
+      <Weather></Weather>
+    </section>
 </template>
+
+<script>
+  import Weather from '@/components/Weather.vue'
+
+  export default {
+    name: 'home',
+    components: {
+      Weather
+    }
+  }
+</script>
