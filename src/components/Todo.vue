@@ -56,30 +56,30 @@
 				name="custom-classes-transition" 
                 enter-active-class="animated fadeInLeft"
 				leave-active-class="animated fadeOutRight">
-			<li class="list-group-item" v-for="filterNote in filteredList" v-bind:key="filterNote">
+			<li class="list-group-item" v-for="note in filteredList" v-bind:key="note">
 				<div class="container">               
 					<div class="row">
 						<div class="col-1 icon-note">
-							<img class="complete" v-if="filterNote.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(filterNote)">
-							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(filterNote)">
+							<img class="complete" v-if="note.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(note)">
+							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(note)">
 						</div>
 						<div class="col-10">
 							<div class="row">
-								<h4 v-if="filterNote.state == true" class="col-12 title-complete">{{ filterNote.task }}</h4>
-								<h4 v-else class="col-12 title-incomplete">{{ filterNote.task }}</h4>
+								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
+								<h4 v-else class="col-12 title-incomplete">{{ note.task }}</h4>
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
-									<button v-if="filterNote.priority == '1'" v-on:click="priorityLow(filterNote)" class="low col-xs-12">Low</button>
-									<button v-else v-on:click="priorityLow(filterNote)" class="disable col-xs-12">Low</button>
+									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
+									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
 									<!-- NORMAL -->
-									<button v-if="filterNote.priority == '2'" v-on:click="priorityNormal(filterNote)" class="normal col-xs-12">Normal</button>
-									<button v-else v-on:click="priorityNormal(filterNote)" class="disable col-xs-12">Normal</button>
+									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
+									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
 									<!-- HIGH -->
-									<button v-if="filterNote.priority == '3'" v-on:click="priorityHigh(filterNote)" class="high col-xs-12">High</button>
-									<button v-else v-on:click="priorityHigh(filterNote)" class="disable col-xs-12">High</button>
+									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
+									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
 								</small>
-								<small class="col-6">Date: {{ filterNote.date_creation }}</small>
+								<small class="col-6">Date: {{ note.date_creation }}</small>
 								<!-- <p>Complete: {{ note.state }}</p> -->
 							</div>							
 						</div>
@@ -176,7 +176,7 @@
 		},
 		computed: {
 			orderNotes: function(){
-				var notes = this.notes;
+				var notes = this.notes;				
 				this.notesOrder = [];
 				for(let i = 0; i < notes.length; i++){
 					if(notes[i].priority == 3){
@@ -206,11 +206,12 @@
 			}
 		},
 		mounted: function(){
-			if(typeof this.notes != 'undefined'){
-				this.notes = JSON.parse(localStorage.getItem("notes"));
-			}else{				
-				localStorage.setItem("notes", JSON.stringify(this.notes));
-			}
+			// if(typeof this.notes != 'undefined'){
+			// 	this.notes = JSON.parse(localStorage.getItem("notes"));
+			// }else{				
+			// 	localStorage.setItem("notes", JSON.stringify(this.notes));
+			// }
+			 this.notes = JSON.parse(localStorage.getItem("notes"));
             
         }   
 	}
