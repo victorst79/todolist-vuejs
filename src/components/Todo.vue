@@ -112,7 +112,7 @@
 		methods: {
 			countNotes: function(notes){
 				var result = 0;
-				for(let i = 0; i < this.notes.length; i++){
+				for(let i = 0; i < notes.length; i++){
 					if(notes[i].state == false){
 						result++;
 					}

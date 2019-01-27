@@ -78,7 +78,6 @@
             }
         },
         created () {
-
             // var info = this.info;
             // var lat = this.latitude;
             // var long = this.longitude;
