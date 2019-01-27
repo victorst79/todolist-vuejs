@@ -180,17 +180,17 @@
 				this.notesOrder = [];
 				for(let i = 0; i < notes.length; i++){
 					if(notes[i].priority == 3){
-						notesOrder.push(notes[i]);
+						this.notesOrder.push(notes[i]);
 					}
 				}
 				for(let i = 0; i < notes.length; i++){
 					if(notes[i].priority == 2){
-						notesOrder.push(notes[i]);
+						this.notesOrder.push(notes[i]);
 					}
 				}
 				for(let i = 0; i < notes.length; i++){
 					if(notes[i].priority == 1){
-						notesOrder.push(notes[i]);
+						this.notesOrder.push(notes[i]);
 					}
 				}
 				return this.notesOrder;
