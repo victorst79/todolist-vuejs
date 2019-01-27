@@ -74,18 +74,18 @@
                 this.longitude = position.coords.longitude;
             },            
             errorFunction: function(){
-                console.log("ERROR");
+                alert("ERROR");
             }
         },
         created () {
 
-            var info = this.info;
+            // var info = this.info;
             // var lat = this.latitude;
             // var long = this.longitude;
             this.$http
                 .get('https://api.openweathermap.org/data/2.5/weather?q=Granada,ES&APPID=b6b271cf0d64d59d26cc77545481af35')
                 .then((response) => {(this.info = response.data)})
-                .catch((error) => {console.error(error);})
+                .catch((error) => {alert("API not working");})
             
         },
         mounted: function(){
