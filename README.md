@@ -1,29 +1,12 @@
 # todolist-vuejs
 
-## Project setup
-```
-npm install
-```
+## Project based on the [Vue.js](https://vuejs.org/) Framework
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[Live Project](https://silly-galileo-63bb5d.netlify.com/#/)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### For this project you need the following packages and libraries:
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [Bootstrap](https://www.npmjs.com/package/bootstrap)
+- [vue-router](https://www.npmjs.com/package/vue-router)
+- [vue-axios](https://www.npmjs.com/package/vue-axios)
+- [vue-animate.css](https://www.npmjs.com/package/vue-animate-css)
