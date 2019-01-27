@@ -56,35 +56,35 @@
 				name="custom-classes-transition" 
                 enter-active-class="animated fadeInLeft"
 				leave-active-class="animated fadeOutRight">
-			<li class="list-group-item" v-for="note in filteredList" v-bind:key="note">
+			<li class="list-group-item" v-for="noteFilter in filteredList" v-bind:key="noteFilter">
 				<div class="container">               
 					<div class="row">
 						<div class="col-1 icon-note">
-							<img class="complete" v-if="note.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(note)">
-							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(note)">
+							<img class="complete" v-if="noteFilter.state == true" src="../assets/circle_tick.png" v-on:click="changeStatus(noteFilter)">
+							<img class="incomplete" v-else src="../assets/circle.png" v-on:click="changeStatus(noteFilter)">
 						</div>
 						<div class="col-10">
 							<div class="row">
-								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
-								<h4 v-else class="col-12 title-incomplete">{{ note.task }}</h4>
+								<h4 v-if="noteFilter.state == true" class="col-12 title-complete">{{ noteFilter.task }}</h4>
+								<h4 v-else class="col-12 title-incomplete">{{ noteFilter.task }}</h4>
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
-									<button v-if="note.priority == '1'" v-on:click="priorityLow(note)" class="low col-xs-12">Low</button>
-									<button v-else v-on:click="priorityLow(note)" class="disable col-xs-12">Low</button>
+									<button v-if="noteFilter.priority == '1'" v-on:click="priorityLow(noteFilter)" class="low col-xs-12">Low</button>
+									<button v-else v-on:click="priorityLow(noteFilter)" class="disable col-xs-12">Low</button>
 									<!-- NORMAL -->
-									<button v-if="note.priority == '2'" v-on:click="priorityNormal(note)" class="normal col-xs-12">Normal</button>
-									<button v-else v-on:click="priorityNormal(note)" class="disable col-xs-12">Normal</button>
+									<button v-if="noteFilter.priority == '2'" v-on:click="priorityNormal(noteFilter)" class="normal col-xs-12">Normal</button>
+									<button v-else v-on:click="priorityNormal(noteFilter)" class="disable col-xs-12">Normal</button>
 									<!-- HIGH -->
-									<button v-if="note.priority == '3'" v-on:click="priorityHigh(note)" class="high col-xs-12">High</button>
-									<button v-else v-on:click="priorityHigh(note)" class="disable col-xs-12">High</button>
+									<button v-if="noteFilter.priority == '3'" v-on:click="priorityHigh(noteFilter)" class="high col-xs-12">High</button>
+									<button v-else v-on:click="priorityHigh(noteFilter)" class="disable col-xs-12">High</button>
 								</small>
-								<small class="col-6">Date: {{ note.date_creation }}</small>
+								<small class="col-6">Date: {{ noteFilter.date_creation }}</small>
 								<!-- <p>Complete: {{ note.state }}</p> -->
 							</div>							
 						</div>
 						<div class="col-1 icon-note">
-							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(filterNote)">
+							<img class="delete" src="../assets/delete.png" v-on:click="deleteNotes(noteFilter)">
 						</div>				
 					</div>
                 </div>
