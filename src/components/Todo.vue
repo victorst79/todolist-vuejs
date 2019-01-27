@@ -3,7 +3,7 @@
 		<h2>{{ msg }}</h2>
 		<input id="newNote" type="text" class="form-control" placeholder="What do you want to remember?" 
 		v-model="newTask" 
-		v-on:keyup.enter="newNote">
+		@keypress.enter="newNote">
 		<div class="dropdown-divider"></div>
 		<small> {{countNotes(notes)}} pending tasks of a total {{notes.length}} | <b v-on:click="deleteCompleteNotes">Delete completed tasks</b></small>
 		<div class="dropdown-divider"></div>		
@@ -22,7 +22,7 @@
 						<div class="col-10">
 							<div class="row">
 								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
-								<h4 v-if="note.state == false" class="col-12 title-incomplete">{{ note.task }}</h4>
+								<h4 v-else class="col-12 title-incomplete">{{ note.task }}</h4>
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
@@ -66,7 +66,7 @@
 						<div class="col-10">
 							<div class="row">
 								<h4 v-if="note.state == true" class="col-12 title-complete">{{ note.task }}</h4>
-								<h4 v-if="note.state == false" class="col-12 title-incomplete">{{ note.task }}</h4>
+								<h4 v-else class="col-12 title-incomplete">{{ note.task }}</h4>
 								<small class="col-6 priority">
 									Priority:
 									<!-- LOW -->
@@ -112,7 +112,7 @@
 		methods: {
 			countNotes: function(notes){
 				var result = 0;
-				for(let i = 0; i < notes.length; i++){
+				for(let i = 0; i < this.notes.length; i++){
 					if(notes[i].state == false){
 						result++;
 					}
@@ -128,7 +128,7 @@
 
 					this.notes.push({task,priority,date_creation,state});
 				}
-				// this.newTask = "";
+				this.newTask = "";
 
 				localStorage.removeItem("notes");
                 localStorage.setItem("notes", JSON.stringify(this.notes));
@@ -206,7 +206,7 @@
 			}
 		},
 		mounted: function(){
-			if(typeof this.notes != null){
+			if(typeof this.notes !== 'undefined'){
 				this.notes = JSON.parse(localStorage.getItem("notes"));
 			}else{				
 				localStorage.setItem("notes", JSON.stringify(this.notes));
