@@ -176,21 +176,21 @@
 		},
 		computed: {
 			orderNotes: function(){
-				// var notes = this.notes;
+				var notes = this.notes;
 				this.notesOrder = [];
-				for(let i = 0; i < this.notes.length; i++){
-					if(this.notes[i].priority == 3){
-						this.notesOrder.push(this.notes[i]);
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 3){
+						notesOrder.push(notes[i]);
 					}
 				}
-				for(let i = 0; i < this.notes.length; i++){
-					if(this.notes[i].priority == 2){
-						this.notesOrder.push(this.notes[i]);
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 2){
+						notesOrder.push(notes[i]);
 					}
 				}
-				for(let i = 0; i < this.notes.length; i++){
-					if(this.notes[i].priority == 1){
-						this.notesOrder.push(this.notes[i]);
+				for(let i = 0; i < notes.length; i++){
+					if(notes[i].priority == 1){
+						notesOrder.push(notes[i]);
 					}
 				}
 				return this.notesOrder;
@@ -206,7 +206,7 @@
 			}
 		},
 		mounted: function(){
-			if(typeof this.notes !== 'undefined'){
+			if(typeof this.notes != 'undefined'){
 				this.notes = JSON.parse(localStorage.getItem("notes"));
 			}else{				
 				localStorage.setItem("notes", JSON.stringify(this.notes));
