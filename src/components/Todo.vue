@@ -128,7 +128,7 @@
 
 					this.notes.push({task,priority,date_creation,state});
 				}
-				this.newTask = "";
+				// this.newTask = "";
 
 				localStorage.removeItem("notes");
                 localStorage.setItem("notes", JSON.stringify(this.notes));
