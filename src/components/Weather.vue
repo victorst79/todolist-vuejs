@@ -78,16 +78,14 @@
             }
         },
         created () {
-            // var info = this.info;
-            // var lat = this.latitude;
-            // var long = this.longitude;
             this.$http
                 .get('https://api.openweathermap.org/data/2.5/weather?q=Granada,ES&APPID=b6b271cf0d64d59d26cc77545481af35')
+                // .get('https://api.openweathermap.org/data/2.5/weather?APPID=b6b271cf0d64d59d26cc77545481af35&lat='+this.latitude+'&lon='+this.longitude)
                 .then((response) => {(this.info = response.data)})
-                .catch((error) => {alert("API not working");})
+                .catch((error) => {console.log(error);})
             
         },
-        mounted: function(){
+        beforeMount: function(){
             if (navigator.geolocation){
                 navigator.geolocation.getCurrentPosition(this.successFunction, this.errorFunction);
             }else{
