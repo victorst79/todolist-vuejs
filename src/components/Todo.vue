@@ -129,9 +129,6 @@
 					this.notes.push({task,priority,date_creation,state});
 				}
 				this.newTask = "";
-
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			deleteCompleteNotes: function(){
 				var notes = this.notes;
@@ -140,8 +137,6 @@
 						notes.splice(i,1);
 					}
 				}
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			deleteNotes: function(note){
 				var notes = this.notes;
@@ -150,28 +145,18 @@
 						notes.splice(i,1);
 					}
 				}
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			changeStatus: function(note){
 				note.state = !note.state;
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityLow: function(note){
 				note.priority = "1";
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityNormal: function(note){
 				note.priority = "2";
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			},
 			priorityHigh: function(note){;
 				note.priority = "3";
-				localStorage.removeItem("notes");
-                localStorage.setItem("notes", JSON.stringify(this.notes));
 			}
 		},
 		computed: {
@@ -205,15 +190,14 @@
 				}		
 			}
 		},
-		mounted: function(){
-			// if(typeof this.notes != 'undefined'){
-			// 	this.notes = JSON.parse(localStorage.getItem("notes"));
-			// }else{				
-			// 	localStorage.setItem("notes", JSON.stringify(this.notes));
-			// }
-			 this.notes = JSON.parse(localStorage.getItem("notes"));
-            
-        }   
+		mounted: function(){			
+			if (localStorage.getItem("notes") != null) {
+				this.notes = JSON.parse(localStorage.getItem("notes"));
+			}
+		},
+		updated: function() {
+			localStorage.setItem("notes", JSON.stringify(this.notes));
+		}
 	}
 </script>
 
